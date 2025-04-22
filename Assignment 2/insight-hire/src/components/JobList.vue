@@ -21,11 +21,12 @@ import jobs from "../assets/jobs.json";
   font-size: 1.25rem;
   color: var(--bs-light);
   background-color: var(--bs-brown);
+  transition: all 0.3s ease-in;
 }
 .list-group-item:hover {
-  color: var(--bs-primary);
+  background-color: var(--bs-light);
+  color: var(--bs-dark);
   font-weight: bold;
   font-size: 1.3rem;
-  transition: all 0.3s ease-in;
 }
 </style>
