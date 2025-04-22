@@ -1,0 +1,20 @@
+// Step 1: Override Bootstrap color variables BEFORE importing Bootstrap
+
+$theme-colors: (
+  "primary": #f2d479,
+  "secondary": #f2b872,
+  "brown": #a68a72,
+
+  "danger": #ef4444,
+  "success": #10b981,
+  "info": #38bdf8,
+
+  "light": #f2eadf,
+  "dark": #26211f,
+  "white": #d0d0d0,
+);
+
+// Step 2: Import Bootstrap (after variables)
+@import "bootstrap/scss/bootstrap";
+
+// CUSTOM STYLING

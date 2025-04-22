@@ -1,0 +1,150 @@
+<template>
+  <!-- <form> -->
+    <!-- Input -->
+    <!-- <fieldset>
+      <label for="id-input" class="fs-2">Search Event ID</label> <br />
+      <input
+        type="text"
+        id="id-input"
+        name="id-input"
+        v-model="userinput.id"
+        class="w-100"
+      />
+      <br />
+      <label for="name-input" class="fs-2">Search Event Name</label> <br />
+      <input
+        type="text"
+        id="name-input"
+        name="name-input"
+        v-model="userinput.name"
+        class="w-100"
+      /><br />
+      <label for="duration-input" class="fs-2">Search Event Duration</label
+      ><br />
+      <input
+        type="text"
+        id="duration-input"
+        name="duration-input"
+        v-model="userinput.duration"
+        class="w-100"
+      /><br />
+    </fieldset> -->
+
+    <!-- Category radio input -->
+    <fieldset>
+      <label>Select Category</label>
+      <!-- Technology -->
+      <input
+        type="radio"
+        id="Technology"
+        name="Technology"
+        v-model="userinput.category"
+        value="Technology"
+      />
+      <label for="Technology">Technology</label>
+      <!-- Businees -->
+      <input
+        type="radio"
+        id="Business"
+        name="Business"
+        v-model="userinput.category"
+        value="Business"
+      />
+      <label for="Business">Business</label>
+      <!-- Marketing -->
+      <input
+        type="radio"
+        id="Marketing"
+        name="Marketing"
+        v-model="userinput.category"
+        value="Marketing"
+      />
+      <label for="Marketing">Marketing</label>
+      <!-- Finance -->
+      <input
+        type="radio"
+        id="Finance"
+        name="Finance"
+        v-model="userinput.category"
+        value="Finance"
+      />
+      <label for="Finance">Finance</label>
+    </fieldset>
+  </form>
+
+  <!-- <table>
+      <thead>
+        <tr>
+          <th scope="col" id="EventID">Event ID</th>
+          <th scope="col" id="EventName">Event Name</th>
+          <th scope="col" id="EventCategory">Event Category</th>
+          <th scope="col" id="EventDuration">Duration Hour</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="e in filterEvents">
+          <th scope="row" id="{{ e.eventid }}">{{ e.eventid }}</th>
+          <td headers="{{ e.eventid }} EventName">{{ e.eventname }}</td>
+          <td headers="{{ e.eventid }} EventCategory">{{ e.category }}</td>
+          <td headers="{{ e.eventid }} EventDuration">
+            {{ e.durationhour }}
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
+</template>
+
+
+
+
+
+ <!-- <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="categoryBusiness"
+          value="Business"
+          checked
+        />
+        <label class="form-check-label" for="categoryBusiness"
+          >Business</label
+        >
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="categoryTechnology"
+          value="Technology"
+        />
+        <label class="form-check-label" for="categoryTechnology"
+          >Technology</label
+        >
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="categoryMarketing"
+          value="Marketing"
+        />
+        <label class="form-check-label" for="categoryMarketing"
+          >Marketing</label
+        >
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="categoryFinance"
+          value="Finance"
+        />
+        <label class="form-check-label" for="categoryFinance">Finance</label>
+      </div> -->
