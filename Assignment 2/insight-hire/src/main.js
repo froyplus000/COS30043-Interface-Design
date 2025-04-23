@@ -8,7 +8,7 @@ import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import { VDateInput } from "vuetify/labs/VDateInput";
-
+// MDI icon for Vuetify
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { mdiAccount } from "@mdi/js";
 

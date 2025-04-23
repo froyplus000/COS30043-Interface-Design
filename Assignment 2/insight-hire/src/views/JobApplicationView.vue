@@ -57,8 +57,8 @@ const emailRules = [
     /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/.test(v) || "Email must be valid",
 ];
 
-const streetRules = [(v) => (v && v.length <= 40) || "Maximum 40 characters"];
-const suburbRules = [(v) => (v && v.length <= 20) || "Maximum 20 characters"];
+const streetRules = [(v) => v.length <= 40 || "Maximum 40 characters"];
+const suburbRules = [(v) => v.length <= 20 || "Maximum 20 characters"];
 const postCodeRules = [
   (v) => !!v || "Postcode is required",
   (v) => /^\d{4}$/.test(v) || "Postcode must be exactly 4 digits",
