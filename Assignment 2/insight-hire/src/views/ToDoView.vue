@@ -10,9 +10,10 @@ function addTask() {
   console.log(trimmed);
   if (!trimmed) return;
 
+  // Inserts new elements at the start of an array, and returns the new length of the array.
   tasks.value.unshift({
     text: trimmed,
-    priority: "Low",
+    priority: "Low", // Default as Low
   });
   console.log(
     "Text: " + tasks.value[0].text + "\nPriority: " + tasks.value[0].priority
@@ -54,7 +55,7 @@ function togglePriority(index) {
       <div>
         <v-list>
           <div
-            v-for="(task, i) in tasks"
+            v-for="(task, index) in tasks"
             :key="i"
             class="border rounded-3 d-flex justify-space-between align-items-center py-2 px-4 mb-3"
           >
@@ -64,11 +65,11 @@ function togglePriority(index) {
               <v-btn
                 variant="outlined"
                 class="mx-1 text-brown"
-                @click="togglePriority(i)"
+                @click="togglePriority(index)"
               >
                 Mark as {{ task.priority === "Low" ? "High" : "Low" }} Priority
               </v-btn>
-              <v-btn color="error" @click="deleteTask(i)">Delete</v-btn>
+              <v-btn color="error" @click="deleteTask(index)">Delete</v-btn>
             </div>
           </div>
         </v-list>

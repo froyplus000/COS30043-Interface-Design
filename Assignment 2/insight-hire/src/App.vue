@@ -12,7 +12,7 @@ import Banner from "./components/Banner.vue";
     <!-- Add RouterView for router to display on the screen -->
     <RouterView />
   </div>
-
+  <!-- Footer -->
   <v-footer
     class="d-flex align-center justify-center ga-2 flex-wrap flex-grow-1 py-3"
   >
