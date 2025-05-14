@@ -1,20 +1,41 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json');
+include '../header.php';
+session_start();
+include "../db.php";
 
-// Handle preflight requests (OPTIONS)
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
+$username = trim($_POST['username'] ?? '');
+$password = trim($_POST['password'] ?? '');
+
+// Validate input
+if (empty($username) || empty($password)) {
+    echo json_encode(['success' => false, 'message' => 'Username and password are required.']);
+    exit;
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+// Look up user
+$sql = "SELECT * FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
 
-if (isset($data['message'])) {
-  echo json_encode(['status' => 'success', 'message' => 'Message received: ' . $data['message']]);
+if ($user && password_verify($password, $user['password'])) {
+    // Credentials are correct → start session
+    $_SESSION['user'] = $user['username'];
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Login successful.',
+        'user' => $user['username']
+    ]);
 } else {
-  echo json_encode(['status' => 'error', 'message' => 'No message received']);
+    // Invalid login
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid username or password.'
+    ]);
 }
-?>
+
+$stmt->close();
+$conn->close();

@@ -1,9 +1,29 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+
+const userLoggedIn = ref(false);
+
+onMounted(async () => {
+  const res = await fetch(import.meta.env.VITE_API_URL + "/session.php", {
+    credentials: "include",
+  });
+  const data = await res.json();
+
+  userLoggedIn.value = data.loggedIn === true;
+});
+
+async function handleLogout() {
+  await fetch(import.meta.env.VITE_API_URL + "/api/logout.php", {
+    credentials: "include",
+  });
+  userLoggedIn.value = false;
+}
+</script>
 
 <template>
   <nav class="bg-brown text-center position-lg-sticky top-0">
     <div
-      class="container py-1 d-flex flex-column flex-lg-row justify-content-between align-items-center"
+      class="container py-1 d-flex flex-column flex-lg-row justify-content-between align-items-center pb-3 pb-lg-0"
     >
       <router-link
         id="logo"
@@ -13,7 +33,7 @@
       >
       <ul
         id="nav-item"
-        class="list-unstyled fs-4 d-flex flex-column flex-lg-row justify-content-between align-items-center mt-3 gap-lg-3"
+        class="list-unstyled fs-4 d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-md-3"
       >
         <li>
           <router-link class="navitem" to="/">Home</router-link>
@@ -25,6 +45,27 @@
           <router-link class="navitem" to="/news">News</router-link>
         </li>
       </ul>
+      <!-- User Logged In -->
+      <div
+        class="d-flex justify-content-between align-items-center"
+        v-if="userLoggedIn"
+      >
+        <h5 class="text-light me-2">Welcome</h5>
+        <v-btn @click="handleLogout">Logout</v-btn>
+      </div>
+      <!-- User not Log In -->
+      <div v-else class="d-flex flex-column flex-md-row gap-3">
+        <v-btn class="navbtn">
+          <router-link class="text-decoration-none text-dark" to="/signup"
+            >Sign Up</router-link
+          >
+        </v-btn>
+        <v-btn class="navbtn"
+          ><router-link class="text-decoration-none text-dark" to="/login"
+            >Log In</router-link
+          ></v-btn
+        >
+      </div>
     </div>
   </nav>
 </template>
@@ -36,7 +77,13 @@
 }
 .navitem:hover {
   color: var(--bs-primary);
-  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+.navbtn {
+  color: var(--bs-dark);
+}
+.navbtn:hover {
+  background-color: var(--bs-primary);
   transition: color 0.3s ease;
 }
 </style>
