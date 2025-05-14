@@ -1,5 +1,7 @@
 <?php
 include './header.php';
+require_once './lib/password.php';
+
 
 session_start();
 

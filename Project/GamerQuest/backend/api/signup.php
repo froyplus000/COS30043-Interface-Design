@@ -1,9 +1,13 @@
 <?php
 include '../header.php';
 include '../db.php';
+require_once '../lib/password.php';
 
-$username = trim($_POST['username'] ?? '');
-$password = trim($_POST['password'] ?? '');
+
+// $username = trim($_POST['username'] ?? '');
+// $password = trim($_POST['password'] ?? '');
+$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 // Basic validation
 if (empty($username) || empty($password)) {
