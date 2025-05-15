@@ -4,13 +4,32 @@ import newsData from "../assets/news.json";
 
 const news = ref(newsData);
 const userinput = ref({ date: "", title: "", content: "", category: "" });
+// Pagination
+const currentPage = ref(1);
+const newsPerPage = 6;
+
+// Calculate the total page for dynamic pagination based on filtered news
+const totalPages = computed(() =>
+  Math.ceil(filterNews.value.length / newsPerPage)
+);
 
 const filterNews = computed(() => {
+  /*
+      Vuetify Output : Fri May 02 2025 00:00:00 GMT+1000 (Australian Eastern Standard Time)
+      Therefore, need to convert to ISO format to be able to fillter news 
+  */
   const selectedDate = userinput.value.date
-    ? new Date(userinput.value.date).toISOString().slice(0, 10)
+    ? (() => {
+        const d = new Date(userinput.value.date);
+        d.setDate(d.getDate() + 1); // Have to add one day to match userinput and filtered news, No Idea why this happening
+        return d.toISOString().slice(0, 10);
+      })()
     : "";
+
+  // Filter and return filtered news to display on the page
   return news.value.filter((n) => {
     return (
+      // Select only news that match userinput and return it.
       n.title
         .toLowerCase()
         .includes(userinput.value.title?.toLowerCase() || "") &&
@@ -24,22 +43,25 @@ const filterNews = computed(() => {
     );
   });
 });
+
+// Selects news to show in the current page.
+const paginatedNews = computed(() => {
+  const start = (currentPage.value - 1) * newsPerPage; // First news to display
+  return filterNews.value.slice(start, start + newsPerPage); // from the start, select and return news in the amount of newsPerPage
+});
 </script>
 
 <template>
   <header class="container header-responsive w-100 text-center py-5">
     <h1 class="mb-5">Gamer News</h1>
+    <!-- Uncomment to see the Vuetify date Output -->
+    <!-- <h1>{{ userinput.date }}</h1> -->
     <!-- Search Inputs -->
     <div class="container">
       <div class="row gx-2">
         <div class="col">
           <v-date-input
             v-model="userinput.date"
-            :display-value="
-              userinput.date
-                ? new Date(userinput.date).toISOString().slice(0, 10)
-                : ''
-            "
             label="Search by Date"
             prepend-icon=""
             variant="underlined"
@@ -77,9 +99,15 @@ const filterNews = computed(() => {
 
   <!-- Display all News -->
   <section class="container w-100 mb-3">
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      rounded
+      class="mb-2"
+    ></v-pagination>
     <div class="row">
       <div
-        v-for="n in filterNews"
+        v-for="n in paginatedNews"
         :key="n.id"
         class="col-12 col-md-6 col-lg-4 mb-4 d-flex align-items-stretch cursor-default"
       >
