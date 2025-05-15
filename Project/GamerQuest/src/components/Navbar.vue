@@ -23,7 +23,7 @@ async function handleLogout() {
 <template>
   <nav class="bg-brown text-center position-lg-sticky top-0">
     <div
-      class="container py-1 d-flex flex-column flex-lg-row justify-content-between align-items-center pb-3 pb-lg-0"
+      class="container py-1 d-flex flex-column flex-md-row justify-content-between align-items-center pb-3 pb-lg-0"
     >
       <router-link
         id="logo"
@@ -35,14 +35,30 @@ async function handleLogout() {
         id="nav-item"
         class="list-unstyled fs-4 d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-md-3"
       >
-        <li>
-          <router-link class="navitem" to="/">Home</router-link>
-        </li>
-        <li>
-          <router-link class="navitem" to="/about">About</router-link>
-        </li>
-        <li>
-          <router-link class="navitem" to="/news">News</router-link>
+        <!-- Dropdown -->
+        <li class="nav-item navitem dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Overview
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <router-link class="dropdown-item" to="/">Home</router-link>
+            </li>
+            <li>
+              <router-link class="dropdown-item" to="/about"
+                >About Us</router-link
+              >
+            </li>
+            <li>
+              <router-link class="dropdown-item" to="/news">News</router-link>
+            </li>
+          </ul>
         </li>
       </ul>
       <!-- User Logged In -->

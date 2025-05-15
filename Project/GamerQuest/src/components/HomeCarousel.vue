@@ -71,6 +71,6 @@
 
 <style scoped>
 .carousel-caption {
-  background-color: rgba(0, 0, 0, 0.5); /* brown with 60% opacity */
+  background-color: rgba(0, 0, 0, 0.65); /* brown with 60% opacity */
 }
 </style>

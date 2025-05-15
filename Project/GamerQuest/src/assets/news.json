@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "date": "2025-05-01",
+    "title": "New RPG Game Announced by SkyForge Studios",
+    "content": "SkyForge Studios has revealed their latest project: 'Legends of Elyria', a massive open-world RPG featuring dynamic weather systems, player-driven economies, and a branching narrative. Fans are calling it a potential Game of the Year.",
+    "category": "Game News"
+  },
+  {
+    "id": 2,
+    "date": "2025-04-22",
+    "title": "Pro Player Kaze Wins Global Arena Championship",
+    "content": "After an intense three-day esports event, Kaze defeated last year's champion in a thrilling final match. The event drew thousands of online viewers and highlighted the growing popularity of competitive gaming worldwide.",
+    "category": "Esports"
+  },
+  {
+    "id": 3,
+    "date": "2025-04-15",
+    "title": "Major Console Update Enhances UI and Load Times",
+    "content": "The latest update for the XNova Console introduces faster load times, a new dark mode, and improved notifications. Gamers are especially excited about the built-in voice chat and smoother menu transitions.",
+    "category": "Tech Update"
+  },
+  {
+    "id": 4,
+    "date": "2025-04-10",
+    "title": "Indie Gem 'PixelForge' Explodes in Popularity",
+    "content": "A small indie team's retro-style dungeon builder, PixelForge, has gone viral after being streamed by a top content creator. It now tops Steam’s trending chart and has been downloaded over 2 million times.",
+    "category": "Indie"
+  },
+  {
+    "id": 5,
+    "date": "2025-04-01",
+    "title": "April Game Releases to Watch",
+    "content": "This month brings anticipated launches like 'CyberStrike 2099', 'Meadow Valley', and 'Ancient Legends Remastered'. April offers something for every kind of gamer, from action fans to chill simulation players.",
+    "category": "Release Calendar"
+  },
+  {
+    "id": 6,
+    "date": "2025-03-28",
+    "title": "Mobile Gaming Surpasses Console in Revenue",
+    "content": "A recent market report shows mobile gaming generated more revenue than console and PC combined. Experts credit casual accessibility, microtransactions, and improved hardware on smartphones.",
+    "category": "Game News"
+  },
+  {
+    "id": 7,
+    "date": "2025-03-25",
+    "title": "Twitch Implements Streamer Bonus Program",
+    "content": "Twitch has rolled out a new bonus program rewarding streamers with consistent viewer engagement. The system includes tiered payouts and incentives for creators to maintain a regular schedule.",
+    "category": "Tech Update"
+  },
+  {
+    "id": 8,
+    "date": "2025-03-20",
+    "title": "Retro Remake: 'Quest Reborn' Announced",
+    "content": "Fans of classic games are thrilled as DreamPixels Studio announces a full remake of 'Quest Reborn', featuring updated graphics, orchestral soundtracks, and new storyline arcs.",
+    "category": "Game News"
+  },
+  {
+    "id": 9,
+    "date": "2025-03-18",
+    "title": "Pro Gamer Retires at Peak Career",
+    "content": "Internationally ranked FPS player 'ZeroScope' has announced retirement citing burnout and a desire to explore content creation. His career spanned five years and multiple world titles.",
+    "category": "Esports"
+  },
+  {
+    "id": 10,
+    "date": "2025-03-12",
+    "title": "VR Headsets Get Major Price Drop",
+    "content": "Major VR companies have slashed prices on entry-level headsets, making immersive gaming more accessible. The move is expected to drive adoption among casual gamers and families.",
+    "category": "Tech Update"
+  },
+  {
+    "id": 11,
+    "date": "2025-03-08",
+    "title": "'Farm & Forge' Update Brings Multiplayer",
+    "content": "Popular indie title 'Farm & Forge' just added co-op multiplayer mode, allowing friends to build farms and fight monsters together. Fans are praising the smooth integration and fun mechanics.",
+    "category": "Indie"
+  },
+  {
+    "id": 12,
+    "date": "2025-03-03",
+    "title": "March Game Launches You Shouldn't Miss",
+    "content": "March's highlight games include 'Stormbreak: Apex Protocol', 'DreamHop', and the surprise hit 'Battle Beans Royale'. Reviews have been overwhelmingly positive across genres.",
+    "category": "Release Calendar"
+  },
+  {
+    "id": 13,
+    "date": "2025-02-25",
+    "title": "New Game Engine Promises Real-Time Ray Tracing",
+    "content": "NextGen Engine v3 promises revolutionary improvements in lighting and shadow realism with real-time ray tracing. Demos showcase breathtaking indoor and night scenes with lifelike detail.",
+    "category": "Tech Update"
+  },
+  {
+    "id": 14,
+    "date": "2025-02-18",
+    "title": "Speedrunner Breaks Longstanding Record",
+    "content": "After nearly 6 years, the world record for 'Ancient Gate' speedrun has finally been broken. Runner 'Jinxed' used a newly discovered glitch to finish the game in just under 27 minutes.",
+    "category": "Esports"
+  },
+  {
+    "id": 15,
+    "date": "2025-02-10",
+    "title": "Indie Dev Raises $500k on Kickstarter",
+    "content": "'Echoes of Dawn', a pixel-art side-scrolling RPG, raised half a million dollars in just 10 days on Kickstarter. The developer promises deep lore, branching story paths, and tactical battles.",
+    "category": "Indie"
+  }
+]

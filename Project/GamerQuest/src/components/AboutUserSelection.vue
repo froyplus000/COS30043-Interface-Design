@@ -20,21 +20,21 @@ const gamerType = ref("");
     <div class="text-center mt-4">
       <img
         v-if="gamerType === 'casual'"
-        src="../assets/casual.png"
+        src="../assets/images/casual.png"
         alt="Casual Gamer"
-        class="img-fluid rounded-xl"
+        class="img-fluid rounded-xl w-75"
       />
       <img
         v-else-if="gamerType === 'serious'"
-        src="../assets/serious.png"
+        src="../assets/images/serious.png"
         alt="Serious Gamer"
-        class="img-fluid rounded-xl"
+        class="img-fluid rounded-xl w-75"
       />
       <img
         v-else-if="gamerType === 'pro'"
-        src="../assets/pro.png"
+        src="../assets/images/pro.png"
         alt="Pro Player"
-        class="img-fluid rounded-xl"
+        class="img-fluid rounded-xl w-75"
       />
     </div>
   </div>
