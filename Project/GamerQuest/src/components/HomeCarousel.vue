@@ -4,9 +4,9 @@
       <!-- First Carousel -->
       <div class="carousel-item active">
         <img
-          src="https://images.unsplash.com/photo-1612725009553-90115a117ceb?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="../assets/images/console.png"
           class="d-block w-100"
-          alt="..."
+          alt="Image of a person holding playstation 4 controller."
         />
 
         <div class="carousel-caption d-block rounded-lg">
@@ -21,9 +21,9 @@
 
       <div class="carousel-item">
         <img
-          src="https://plus.unsplash.com/premium_photo-1678112180480-a4169c601fa1?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="../assets/images/pc.png"
           class="d-block w-100"
-          alt="..."
+          alt="Image of a male, siiting in his gaming pc set up."
         />
         <div class="carousel-caption d-block rounded-lg">
           <h5>PC Gamer</h5>
@@ -35,9 +35,9 @@
       </div>
       <div class="carousel-item">
         <img
-          src="https://images.unsplash.com/photo-1685567638296-bd4c0ba841a1?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="../assets/images/handheld.png"
           class="d-block w-100"
-          alt="..."
+          alt="Image of a person playing game on a white nintendo switch."
         />
         <div class="carousel-caption d-block rounded-lg">
           <h5>On the GO Gamer</h5>

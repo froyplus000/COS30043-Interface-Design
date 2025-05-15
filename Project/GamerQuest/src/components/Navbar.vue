@@ -23,7 +23,7 @@ async function handleLogout() {
 <template>
   <nav class="bg-brown text-center position-lg-sticky top-0">
     <div
-      class="container py-1 d-flex flex-column flex-md-row justify-content-between align-items-center pb-3 pb-lg-0"
+      class="container py-1 d-flex flex-column flex-lg-row justify-content-between align-items-center pb-3 pb-lg-0"
     >
       <router-link
         id="logo"
@@ -60,14 +60,28 @@ async function handleLogout() {
             </li>
           </ul>
         </li>
+
+        <li>
+          <router-link class="navitem" to="/explorer">Explorer</router-link>
+        </li>
+        <li>
+          <router-link class="navitem" to="/popular">Trending</router-link>
+        </li>
       </ul>
       <!-- User Logged In -->
       <div
         class="d-flex justify-content-center align-items-center gap-3"
         v-if="userLoggedIn"
       >
-        <v-btn density="comfortable" @click="handleLogout">Logout</v-btn>
-        <h5 class="text-light mb-0">Welcome</h5>
+        <v-btn density="comfortable" class="navbtn" @click="handleLogout"
+          >Logout</v-btn
+        >
+        <v-btn density="comfortable" class="navbtn">
+          <router-link class="text-decoration-none text-dark" to="/profile"
+            >My Profile</router-link
+          >
+        </v-btn>
+        <!-- <h5 class="text-light mb-0">Welcome</h5> -->
       </div>
       <!-- User not Log In -->
       <div v-else class="d-flex flex-column flex-md-row gap-3">

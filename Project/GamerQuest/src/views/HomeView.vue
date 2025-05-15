@@ -4,7 +4,7 @@ import HomeCarousel from "../components/HomeCarousel.vue";
 <template>
   <section class="container header-responsive w-100 py-5">
     <header class="text-center mb-4">
-      <h1>Welcome to GamerQuest</h1>
+      <h1>Greeting, adventurer</h1>
       <p>
         Welcome to GamerQuest, your personal companion for tracking and
         discovering video games. Whether you're a casual player or a dedicated

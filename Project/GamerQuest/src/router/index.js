@@ -5,6 +5,9 @@ import AboutView from "../views/AboutView.vue";
 import NewsView from "../views/NewsView.vue";
 import SignUpView from "../views/SignUpView.vue";
 import LogInView from "../views/LogInView.vue";
+import GameExplorerView from "../views/GameExplorerView.vue";
+import PopularView from "../views/PopularView.vue";
+import ProfileView from "../views/ProfileView.vue";
 // Components
 
 const routes = [
@@ -16,6 +19,9 @@ const routes = [
   { path: "/news", component: NewsView },
   { path: "/signup", component: SignUpView },
   { path: "/login", component: LogInView },
+  { path: "/explorer", component: GameExplorerView },
+  { path: "/popular", component: PopularView },
+  { path: "/profile", component: ProfileView },
 ];
 
 const router = createRouter({
