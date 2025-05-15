@@ -30,7 +30,7 @@ $result = $stmt->get_result();
 if ($result) {
     $user = $result->fetch_assoc();
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($user && password_verify($password, $user['password_hash'])) {
         $_SESSION['user'] = $user['username'];
 
         echo json_encode([
