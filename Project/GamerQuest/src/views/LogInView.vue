@@ -38,7 +38,7 @@ async function handleLogIn() {
 
 <template>
   <section class="d-flex align-items-center justify-content-center">
-    <div class="container w-75">
+    <div class="container w-50">
       <h1 class="text-center mb-5">Log In</h1>
 
       <v-text-field

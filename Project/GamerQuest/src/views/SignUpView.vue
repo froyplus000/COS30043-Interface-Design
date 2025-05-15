@@ -34,8 +34,8 @@ async function handleSubmit() {
 
 <template>
   <section class="d-flex align-items-center justify-content-center">
-    <div class="container w-75">
-      <h1 class="text-center mb-5">Sign Up</h1>
+    <div class="container w-50">
+      <h1 class="text-center mb-5">Create Your Account</h1>
 
       <v-text-field
         v-model="username"

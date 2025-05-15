@@ -63,20 +63,20 @@ async function handleLogout() {
       </ul>
       <!-- User Logged In -->
       <div
-        class="d-flex justify-content-between align-items-center"
+        class="d-flex justify-content-center align-items-center gap-3"
         v-if="userLoggedIn"
       >
-        <h5 class="text-light me-2">Welcome</h5>
-        <v-btn @click="handleLogout">Logout</v-btn>
+        <v-btn density="comfortable" @click="handleLogout">Logout</v-btn>
+        <h5 class="text-light mb-0">Welcome</h5>
       </div>
       <!-- User not Log In -->
       <div v-else class="d-flex flex-column flex-md-row gap-3">
-        <v-btn class="navbtn">
+        <v-btn density="comfortable" class="navbtn">
           <router-link class="text-decoration-none text-dark" to="/signup"
             >Sign Up</router-link
           >
         </v-btn>
-        <v-btn class="navbtn"
+        <v-btn density="comfortable" class="navbtn"
           ><router-link class="text-decoration-none text-dark" to="/login"
             >Log In</router-link
           ></v-btn
