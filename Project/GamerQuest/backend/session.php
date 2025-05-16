@@ -1,14 +1,14 @@
 <?php
+session_start();
 include './header.php';
 require_once './lib/password.php';
 
 
-session_start();
 
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['username'])) {
     echo json_encode([
         'loggedIn' => true,
-        'user' => $_SESSION['user']
+        'user' => $_SESSION['username']
     ]);
 } else {
     echo json_encode([

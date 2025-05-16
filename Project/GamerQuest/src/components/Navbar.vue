@@ -1,15 +1,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import axios from "axios";
 
+// Check if user is logged in or not
 const userLoggedIn = ref(false);
-
 onMounted(async () => {
-  const res = await fetch(import.meta.env.VITE_API_URL + "/session.php", {
-    credentials: "include",
-  });
-  const data = await res.json();
-
-  userLoggedIn.value = data.loggedIn === true;
+  try {
+    const res = await axios.get(import.meta.env.VITE_API_URL + "/session.php", {
+      withCredentials: true,
+    });
+    userLoggedIn.value = res.data.loggedIn === true;
+  } catch (err) {
+    console.error("Failed to check session:", err);
+    userLoggedIn.value = false;
+  }
 });
 
 async function handleLogout() {

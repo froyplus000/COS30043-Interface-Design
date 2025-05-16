@@ -1,13 +1,14 @@
 <?php
 include '../header.php';
-session_start();
 include "../db.php";
 require_once '../lib/password.php';
 
 
-// Use classic isset() checks compatible with PHP 5.6
+
+
 $username = isset($_POST['username']) ? trim($_POST['username']) : '';
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+
 
 // Validate input
 if (empty($username) || empty($password)) {
@@ -16,7 +17,7 @@ if (empty($username) || empty($password)) {
 }
 
 // Look up user
-$sql = "SELECT * FROM users WHERE username = ?";
+$sql = "SELECT * FROM gq_users WHERE username = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode(['success' => false, 'message' => 'Database error: prepare failed']);
@@ -31,7 +32,7 @@ if ($result) {
     $user = $result->fetch_assoc();
 
     if ($user && password_verify($password, $user['password_hash'])) {
-        $_SESSION['user'] = $user['username'];
+        $_SESSION['username'] = $user['username'];
 
         echo json_encode([
             'success' => true,

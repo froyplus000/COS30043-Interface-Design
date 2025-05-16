@@ -22,7 +22,7 @@ if (empty($firstname) || empty($lastname) || empty($username) || empty($password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 // Prepared statement to insert new user
-$sql = "INSERT INTO users (firstname, lastname, username, password_hash, email) VALUES (?, ?, ?, ?, ?)"; // Question Mark means place holder for values
+$sql = "INSERT INTO gq_users (firstname, lastname, username, password_hash, email) VALUES (?, ?, ?, ?, ?)"; // Question Mark means place holder for values
 $stmt = $conn->prepare($sql);
 
 if ($stmt === false) {

@@ -8,7 +8,11 @@ const gameId = route.params.gameId;
 
 const API_KEY = "057d92d1a37442dabc4f22ad6175149a";
 const game = ref(null);
+const rawgId = ref();
 const error = ref(null);
+const addGameMessage = ref("");
+
+const userLoggedIn = ref(false);
 
 const fetchGameDetail = async () => {
   try {
@@ -21,13 +25,47 @@ const fetchGameDetail = async () => {
       }
     );
     game.value = response.data;
+    rawgId.value = parseInt(game.value.id);
   } catch (err) {
     error.value = "Failed to fetch game detail.";
     console.error(err);
   }
 };
+async function handleAddGame() {
+  addGameMessage.value = null;
 
-onMounted(() => {
+  try {
+    const response = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/add_user_game.php",
+      {
+        rawg_id: rawgId.value,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.data.success) {
+      addGameMessage.value = "Game added successfully!";
+    } else {
+      addGameMessage.value = response.data.message || "Failed to add game.";
+    }
+  } catch (err) {
+    addGameMessage.value = "An error occurred while adding the game.";
+    console.error(err);
+  }
+}
+
+onMounted(async () => {
+  try {
+    const res = await axios.get(import.meta.env.VITE_API_URL + "/session.php", {
+      withCredentials: true,
+    });
+    userLoggedIn.value = res.data.loggedIn === true;
+  } catch (err) {
+    console.error("Failed to check session:", err);
+    userLoggedIn.value = false;
+  }
   fetchGameDetail();
 });
 </script>
@@ -44,7 +82,7 @@ onMounted(() => {
     />
 
     <!-- Info Grid -->
-    <div class="row mb-4">
+    <section class="row mb-4">
       <!-- Left Column -->
       <div class="col-md-6">
         <p><strong>Released: </strong> {{ game.released }}</p>
@@ -72,7 +110,7 @@ onMounted(() => {
         <p>
           <strong>Tags: <br /></strong>
           <span
-            class="badge bg-warning text-dark me-1"
+            class="badge bg-warning text-dark mr-1"
             v-for="tag in game.tags.slice(0, 5)"
             :key="tag.id"
           >
@@ -96,8 +134,9 @@ onMounted(() => {
           </li>
         </ul>
       </div>
-    </div>
-    <div class="row mb-4">
+    </section>
+    <!--  Button section -->
+    <section class="row mb-4">
       <div class="col-md-6">
         <!-- Reddit Button -->
         <v-btn
@@ -112,9 +151,17 @@ onMounted(() => {
         </v-btn>
       </div>
       <div class="col-md-6">
-        <v-btn class="btn bg-brown" block>Add to Your Game</v-btn>
+        <v-btn
+          v-if="userLoggedIn"
+          @click="handleAddGame"
+          class="btn bg-brown"
+          block
+          >Add to Your Game</v-btn
+        >
+        <v-btn v-else class="btn bg-brown" block>Log in to add your game</v-btn>
       </div>
-    </div>
+      <p v-if="addGameMessage">{{ addGameMessage }}</p>
+    </section>
 
     <!-- Description -->
     <div>
@@ -128,7 +175,7 @@ onMounted(() => {
 @media (min-width: 992px) {
   /* Bootstrap's lg breakpoint */
   .section-responsive {
-    width: 75% !important;
+    width: 80dvw !important;
   }
 }
 </style>
