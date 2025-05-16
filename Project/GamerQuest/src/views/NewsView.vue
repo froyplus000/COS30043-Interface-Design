@@ -116,7 +116,10 @@ const paginatedNews = computed(() => {
             <h3 class="card-title font-primary mb-3">{{ n.title }}</h3>
             <p class="card-text">{{ n.content }}</p>
             <p class="card-text text-muted">Published on: {{ n.date }}</p>
-            <p class="bg-brown d-inline px-2 py-1 rounded">{{ n.category }}</p>
+            <span class="badge text-bg-brown text-light p-2">
+              {{ n.category }}
+            </span>
+            <!-- <p class="bg-brown d-inline px-2 py-1 rounded">{{ }}</p> -->
           </div>
         </div>
       </div>
