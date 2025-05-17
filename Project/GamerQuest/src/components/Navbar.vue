@@ -21,6 +21,7 @@ async function handleLogout() {
     credentials: "include",
   });
   userLoggedIn.value = false;
+  window.location.reload(); // refresh the page after logged in
 }
 </script>
 
