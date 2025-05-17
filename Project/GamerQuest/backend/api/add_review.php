@@ -21,6 +21,10 @@ if (empty($username) || empty($rawg_id) || empty($rating) || empty($comment) ) {
     exit;
 }
 
+
+// Check if user already review the game or not
+
+
 // Add Review
 $sql = "INSERT INTO gq_reviews (username, rawg_id, rating, comment) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);

@@ -2,17 +2,23 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import { tr } from "vuetify/locale";
 
 const route = useRoute();
 const gameId = route.params.gameId;
 
+const userLoggedIn = ref(false);
+const username = ref();
 const API_KEY = "057d92d1a37442dabc4f22ad6175149a";
 const game = ref(null);
 const reviews = ref([]);
+const edittingReview = ref(false);
 const rawgId = ref();
 const error = ref(null);
 const addGameMessage = ref({ status: "", message: "" });
 const addReviewMessage = ref({ status: "", message: "" });
+const editReviewMessage = ref({ status: "", message: "" });
+const deleteReviewMessage = ref({ status: "", message: "" });
 const userinput = ref({ rating: 3.0, comment: "" });
 const ratingLabels = {
   1: "Not Fun",
@@ -21,8 +27,6 @@ const ratingLabels = {
   4: "Good",
   5: "Master Piece",
 };
-
-const userLoggedIn = ref(false);
 
 async function fetchGameDetail() {
   try {
@@ -53,10 +57,9 @@ async function fetchGameReviews() {
         withCredentials: true,
       }
     );
-    console.log("Full response:", response.data);
+    // console.log("Full response:", response.data);
 
     reviews.value = response.data.reviews;
-    console.log(reviews.value);
   } catch (err) {
     console.error("Error fetching reviews:", err);
   }
@@ -107,13 +110,70 @@ async function handleAddReview() {
     if (response.data.success) {
       addReviewMessage.value.status = "success";
       addReviewMessage.value.message = response.data.message;
+      await fetchGameReviews();
     } else {
       addReviewMessage.value.status = "fail";
       addReviewMessage.value.message = response.data.message;
     }
   } catch (err) {
     addReviewMessage.value.status = "fail";
-    addReviewMessage.value.message = "An error occurred while adding the game.";
+    addReviewMessage.value.message = "An error occurred while adding review.";
+    console.error(err);
+  }
+}
+// Edit review for logged in user
+async function handleEditReview() {
+  try {
+    const response = await axios.put(
+      import.meta.env.VITE_API_URL + "/api/edit_review.php",
+      {
+        rawg_id: rawgId.value,
+        rating: userinput.value.rating,
+        comment: userinput.value.comment,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    if (response.data.success) {
+      editReviewMessage.value.status = "success";
+      editReviewMessage.value.message = response.data.message;
+      await fetchGameReviews(); // Refresh reviews after edit
+      edittingReview.value = false;
+    } else {
+      editReviewMessage.value.status = "fail";
+      editReviewMessage.value.message = response.data.message;
+    }
+  } catch (err) {
+    editReviewMessage.value.status = "fail";
+    editReviewMessage.value.message =
+      "An error occurred while editing the game.";
+    console.error(err);
+  }
+}
+
+async function handleDeleteReview() {
+  try {
+    const response = await axios.delete(
+      import.meta.env.VITE_API_URL + "/api/delete_review.php",
+      {
+        data: {
+          rawg_id: rawgId.value,
+        },
+        withCredentials: true,
+      }
+    );
+    if (response.data.success) {
+      deleteReviewMessage.value.status = "success";
+      deleteReviewMessage.value.message = response.data.message;
+      await fetchGameReviews(); // Refresh reviews after delete
+    } else {
+      deleteReviewMessage.value.status = "fail";
+      deleteReviewMessage.value.message = response.data.message;
+    }
+  } catch (err) {
+    deleteReviewMessage.value.status = "fail";
+    deleteReviewMessage.value.message = "Failed to delete review.";
     console.error(err);
   }
 }
@@ -124,6 +184,7 @@ onMounted(async () => {
       withCredentials: true,
     });
     userLoggedIn.value = res.data.loggedIn === true;
+    username.value = res.data.user;
   } catch (err) {
     console.error("Failed to check session:", err);
     userLoggedIn.value = false;
@@ -251,6 +312,7 @@ onMounted(async () => {
       <div v-html="game.description"></div>
     </div>
   </section>
+
   <!-- Game Review -->
   <section class="container section-responsive w-100 my-5">
     <h1 class="text-center">All Reviews</h1>
@@ -260,12 +322,55 @@ onMounted(async () => {
     </p>
     <div v-else>
       <div v-for="(review, index) in reviews" :key="index" class="mb-4">
-        <p>
-          Review from : <strong>{{ review.username }}</strong> <br />
-          Rated at :
-          {{ review.rating }} out of 5
-        </p>
-        <p class="ml-4">{{ review.comment }}</p>
+        <div>
+          <p>
+            Review from : <strong>{{ review.username }}</strong> <br />
+            Rated at :
+            {{ review.rating }} out of 5
+          </p>
+          <p class="ml-4">{{ review.comment }}</p>
+        </div>
+        <div v-if="username" class="d-flex gap-3">
+          <v-btn
+            color="warning"
+            @click="
+              edittingReview == false
+                ? (edittingReview = true)
+                : (edittingReview = false)
+            "
+            >Edit</v-btn
+          >
+          <v-btn color="danger" class="text-light" @click="handleDeleteReview"
+            >DELETE</v-btn
+          >
+        </div>
+        <div v-if="edittingReview == true" class="mt-2">
+          <v-slider
+            v-model="userinput.rating"
+            :max="5"
+            :min="1"
+            :step="0.1"
+            :ticks="ratingLabels"
+            tick-size="5"
+            show-ticks="always"
+            thumb-label
+          ></v-slider>
+          <v-textarea
+            clearable
+            label="Comment"
+            placeholder="Share your experiences"
+            v-model="userinput.comment"
+          ></v-textarea>
+          <v-btn block class="bg-brown" @click="handleEditReview">Submit</v-btn>
+        </div>
+        <div class="mt-3">
+          <p v-if="(editReviewMessage.success = true)" class="text-success">
+            {{ editReviewMessage.message }}
+          </p>
+          <p v-if="(editReviewMessage.success = false)" class="text-danger">
+            {{ editReviewMessage.message }}
+          </p>
+        </div>
         <hr />
       </div>
     </div>
