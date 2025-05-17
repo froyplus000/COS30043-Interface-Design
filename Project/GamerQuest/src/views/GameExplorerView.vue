@@ -18,7 +18,7 @@ const fetchGames = async () => {
     const response = await axios.get("https://api.rawg.io/api/games", {
       params: {
         key: API_KEY,
-        page_size: 1, // You can increase or paginate later
+        page_size: 3, // You can increase or paginate later
       },
     });
     games.value = response.data.results;

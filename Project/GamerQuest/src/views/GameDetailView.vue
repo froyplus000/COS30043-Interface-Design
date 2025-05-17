@@ -8,6 +8,7 @@ const gameId = route.params.gameId;
 
 const API_KEY = "057d92d1a37442dabc4f22ad6175149a";
 const game = ref(null);
+const reviews = ref([]);
 const rawgId = ref();
 const error = ref(null);
 const addGameMessage = ref({ status: "", message: "" });
@@ -23,7 +24,7 @@ const ratingLabels = {
 
 const userLoggedIn = ref(false);
 
-const fetchGameDetail = async () => {
+async function fetchGameDetail() {
   try {
     const response = await axios.get(
       `https://api.rawg.io/api/games/${gameId}`,
@@ -39,7 +40,28 @@ const fetchGameDetail = async () => {
     error.value = "Failed to fetch game detail.";
     console.error(err);
   }
-};
+}
+
+async function fetchGameReviews() {
+  try {
+    const response = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/get_review.php",
+      {
+        rawg_id: rawgId.value,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    console.log("Full response:", response.data);
+
+    reviews.value = response.data.reviews;
+    console.log(reviews.value);
+  } catch (err) {
+    console.error("Error fetching reviews:", err);
+  }
+}
+
 async function handleAddGame() {
   addGameMessage.value.status = "";
   addGameMessage.value.message = "";
@@ -68,7 +90,7 @@ async function handleAddGame() {
     console.error(err);
   }
 }
-async function handleReview() {
+async function handleAddReview() {
   try {
     const response = await axios.post(
       import.meta.env.VITE_API_URL + "/api/add_review.php",
@@ -95,6 +117,7 @@ async function handleReview() {
     console.error(err);
   }
 }
+
 onMounted(async () => {
   try {
     const res = await axios.get(import.meta.env.VITE_API_URL + "/session.php", {
@@ -105,7 +128,9 @@ onMounted(async () => {
     console.error("Failed to check session:", err);
     userLoggedIn.value = false;
   }
-  fetchGameDetail();
+
+  await fetchGameDetail();
+  await fetchGameReviews();
 });
 </script>
 
@@ -130,7 +155,7 @@ onMounted(async () => {
         <p>
           <strong>Genres: </strong>
           <span
-            class="badge bg-secondary"
+            class="badge bg-secondary mr-1"
             v-for="genre in game.genres"
             :key="genre.id"
           >
@@ -226,12 +251,30 @@ onMounted(async () => {
       <div v-html="game.description"></div>
     </div>
   </section>
-  <!-- Review -->
+  <!-- Game Review -->
+  <section class="container section-responsive w-100 my-5">
+    <h1 class="text-center">All Reviews</h1>
+    <p v-if="reviews.length === 0" class="mt-4 text-center">
+      No Review for this game
+      <span class="text-warning">Be the first to review this game</span>
+    </p>
+    <div v-else>
+      <div v-for="(review, index) in reviews" :key="index" class="mb-4">
+        <p>
+          Review from : <strong>{{ review.username }}</strong> <br />
+          Rated at :
+          {{ review.rating }} out of 5
+        </p>
+        <p class="ml-4">{{ review.comment }}</p>
+        <hr />
+      </div>
+    </div>
+  </section>
+
+  <!-- Write Review for Logged in user-->
   <section v-if="userLoggedIn" class="container section-responsive w-100 my-5">
     <div class="text-center">
-      <h1 class="mb-4">
-        Write a review for <span class="text-brown">{{ game.name }}</span>
-      </h1>
+      <h1 class="mb-4">Write a review for</h1>
       <!-- Form -->
       <v-slider
         v-model="userinput.rating"
@@ -249,7 +292,7 @@ onMounted(async () => {
         placeholder="Share your experiences"
         v-model="userinput.comment"
       ></v-textarea>
-      <v-btn block class="bg-brown" @click="handleReview">Submit</v-btn>
+      <v-btn block class="bg-brown" @click="handleAddReview">Submit</v-btn>
       <div class="mt-3">
         <p v-if="(addReviewMessage.success = true)" class="text-success">
           {{ addReviewMessage.message }}
