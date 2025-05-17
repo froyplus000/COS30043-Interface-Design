@@ -10,7 +10,16 @@ const API_KEY = "057d92d1a37442dabc4f22ad6175149a";
 const game = ref(null);
 const rawgId = ref();
 const error = ref(null);
-const addGameMessage = ref("");
+const addGameMessage = ref({ status: "", message: "" });
+const addReviewMessage = ref({ status: "", message: "" });
+const userinput = ref({ rating: 3.0, comment: "" });
+const ratingLabels = {
+  1: "Not Fun",
+  2: "Meh",
+  3: "Alright",
+  4: "Good",
+  5: "Master Piece",
+};
 
 const userLoggedIn = ref(false);
 
@@ -25,14 +34,15 @@ const fetchGameDetail = async () => {
       }
     );
     game.value = response.data;
-    rawgId.value = parseInt(game.value.id);
+    rawgId.value = parseInt(game.value.id); // Change to int before add to gq_user_games table
   } catch (err) {
     error.value = "Failed to fetch game detail.";
     console.error(err);
   }
 };
 async function handleAddGame() {
-  addGameMessage.value = null;
+  addGameMessage.value.status = "";
+  addGameMessage.value.message = "";
 
   try {
     const response = await axios.post(
@@ -46,16 +56,45 @@ async function handleAddGame() {
     );
 
     if (response.data.success) {
-      addGameMessage.value = "Game added successfully!";
+      addGameMessage.value.status = "success";
+      addGameMessage.value.message = response.data.message;
     } else {
-      addGameMessage.value = response.data.message || "Failed to add game.";
+      addGameMessage.value.status = "fail";
+      addGameMessage.value.message = response.data.message;
     }
   } catch (err) {
-    addGameMessage.value = "An error occurred while adding the game.";
+    addGameMessage.value.status = "fail";
+    addGameMessage.value.message = "An error occurred while adding the game.";
     console.error(err);
   }
 }
+async function handleReview() {
+  try {
+    const response = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/add_review.php",
+      {
+        rawg_id: rawgId.value,
+        rating: userinput.value.rating,
+        comment: userinput.value.comment,
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
+    if (response.data.success) {
+      addReviewMessage.value.status = "success";
+      addReviewMessage.value.message = response.data.message;
+    } else {
+      addReviewMessage.value.status = "fail";
+      addReviewMessage.value.message = response.data.message;
+    }
+  } catch (err) {
+    addReviewMessage.value.status = "fail";
+    addReviewMessage.value.message = "An error occurred while adding the game.";
+    console.error(err);
+  }
+}
 onMounted(async () => {
   try {
     const res = await axios.get(import.meta.env.VITE_API_URL + "/session.php", {
@@ -71,6 +110,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <!-- Game information -->
   <section v-if="game" class="container section-responsive w-100 my-5">
     <h2 class="mb-3">{{ game.name }}</h2>
 
@@ -158,15 +198,66 @@ onMounted(async () => {
           block
           >Add to Your Game</v-btn
         >
-        <v-btn v-else class="btn bg-brown" block>Log in to add your game</v-btn>
+        <v-btn v-else class="btn bg-brown" block>
+          <router-link to="/login" class="text-decoration-none text-light"
+            >Log in to add game</router-link
+          >
+        </v-btn>
       </div>
-      <p v-if="addGameMessage">{{ addGameMessage }}</p>
+
+      <p
+        class="text-center text-success"
+        v-if="addGameMessage.status === 'success'"
+      >
+        {{ addGameMessage.message }}
+      </p>
+
+      <p
+        class="text-center text-danger"
+        v-if="addGameMessage.status === 'fail'"
+      >
+        {{ addGameMessage.message }}
+      </p>
     </section>
 
     <!-- Description -->
     <div>
       <h4>Description</h4>
       <div v-html="game.description"></div>
+    </div>
+  </section>
+  <!-- Review -->
+  <section v-if="userLoggedIn" class="container section-responsive w-100 my-5">
+    <div class="text-center">
+      <h1 class="mb-4">
+        Write a review for <span class="text-brown">{{ game.name }}</span>
+      </h1>
+      <!-- Form -->
+      <v-slider
+        v-model="userinput.rating"
+        :max="5"
+        :min="1"
+        :step="0.1"
+        :ticks="ratingLabels"
+        tick-size="5"
+        show-ticks="always"
+        thumb-label
+      ></v-slider>
+      <v-textarea
+        clearable
+        label="Comment"
+        placeholder="Share your experiences"
+        v-model="userinput.comment"
+      ></v-textarea>
+      <v-btn block class="bg-brown" @click="handleReview">Submit</v-btn>
+      <div class="mt-3">
+        <p v-if="(addReviewMessage.success = true)" class="text-success">
+          {{ addReviewMessage.message }}
+        </p>
+        <p v-if="(addReviewMessage.success = false)" class="text-danger">
+          {{ addReviewMessage.message }}
+        </p>
+      </div>
     </div>
   </section>
 </template>

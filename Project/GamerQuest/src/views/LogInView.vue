@@ -52,6 +52,7 @@ async function handleLogIn() {
         label="Enter Password"
         type="password"
         class="mb-4"
+        @keyup.enter="handleLogIn"
       ></v-text-field>
 
       <v-btn block class="bg-brown" @click="handleLogIn">Log In</v-btn>

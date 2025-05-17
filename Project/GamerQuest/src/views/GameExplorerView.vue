@@ -119,7 +119,7 @@ onMounted(() => {
               v-for="tag in game.tags.slice(0, 3)"
               :key="tag.id"
             >
-              <span class="badge text-bg-brown text-light mr-1 px-3">
+              <span class="badge bg-warning text-light mr-1 px-3">
                 {{ tag.name }}
               </span>
             </div>
