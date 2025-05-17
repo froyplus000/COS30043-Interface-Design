@@ -22,7 +22,17 @@ if (empty($username) || empty($rawg_id) || empty($rating) || empty($comment) ) {
 }
 
 
-// Check if user already review the game or not
+$check_sql = "SELECT id FROM gq_reviews WHERE username = ? AND rawg_id = ?";
+$check_stmt = $conn->prepare($check_sql);
+$check_stmt->bind_param("si", $username, $rawg_id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows > 0) {
+  echo json_encode(["success" => false, "message" => "You already reviewed this game."]);
+  exit;
+}
+$check_stmt->close();
 
 
 // Add Review

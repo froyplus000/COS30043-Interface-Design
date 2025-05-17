@@ -2,30 +2,31 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
-import { tr } from "vuetify/locale";
 
 const route = useRoute();
-const gameId = route.params.gameId;
-
-const userLoggedIn = ref(false);
-const username = ref();
+const gameId = route.params.gameId; // Get game id 
 const API_KEY = "057d92d1a37442dabc4f22ad6175149a";
-const game = ref(null);
-const reviews = ref([]);
-const edittingReview = ref(false);
-const rawgId = ref();
-const error = ref(null);
+
+const userLoggedIn = ref(false); // Check if user is logged in or not
+const edittingReview = ref(false); // For toggle editting state
+const username = ref(); // Store a current username of logged in user
+const game = ref(null); // Store Information of the game
+const reviews = ref([]); // List of all reviews for this game
+
+// Messages
 const addGameMessage = ref({ status: "", message: "" });
 const addReviewMessage = ref({ status: "", message: "" });
 const editReviewMessage = ref({ status: "", message: "" });
 const deleteReviewMessage = ref({ status: "", message: "" });
-const userinput = ref({ rating: 3.0, comment: "" });
+
+const userinput = ref({ rating: 3.0, comment: "" }); // userinput for reviews
+// label for slider rating in the review
 const ratingLabels = {
-  1: "Not Fun",
-  2: "Meh",
-  3: "Alright",
-  4: "Good",
-  5: "Master Piece",
+  1: "Bad",
+  2: "",
+  3: "Average",
+  4: "",
+  5: "Best",
 };
 
 async function fetchGameDetail() {
@@ -41,8 +42,7 @@ async function fetchGameDetail() {
     game.value = response.data;
     rawgId.value = parseInt(game.value.id); // Change to int before add to gq_user_games table
   } catch (err) {
-    error.value = "Failed to fetch game detail.";
-    console.error(err);
+    console.error("Failed to fetch game detail.", err);
   }
 }
 
@@ -51,7 +51,7 @@ async function fetchGameReviews() {
     const response = await axios.post(
       import.meta.env.VITE_API_URL + "/api/get_review.php",
       {
-        rawg_id: rawgId.value,
+        rawg_id: gameId,
       },
       {
         withCredentials: true,
@@ -73,7 +73,7 @@ async function handleAddGame() {
     const response = await axios.post(
       import.meta.env.VITE_API_URL + "/api/add_user_game.php",
       {
-        rawg_id: rawgId.value,
+        rawg_id: gameId,
       },
       {
         withCredentials: true,
@@ -98,7 +98,7 @@ async function handleAddReview() {
     const response = await axios.post(
       import.meta.env.VITE_API_URL + "/api/add_review.php",
       {
-        rawg_id: rawgId.value,
+        rawg_id: gameId,
         rating: userinput.value.rating,
         comment: userinput.value.comment,
       },
@@ -114,6 +114,8 @@ async function handleAddReview() {
     } else {
       addReviewMessage.value.status = "fail";
       addReviewMessage.value.message = response.data.message;
+      await fetchGameReviews();
+
     }
   } catch (err) {
     addReviewMessage.value.status = "fail";
@@ -127,7 +129,7 @@ async function handleEditReview() {
     const response = await axios.put(
       import.meta.env.VITE_API_URL + "/api/edit_review.php",
       {
-        rawg_id: rawgId.value,
+        rawg_id: gameId,
         rating: userinput.value.rating,
         comment: userinput.value.comment,
       },
@@ -158,7 +160,7 @@ async function handleDeleteReview() {
       import.meta.env.VITE_API_URL + "/api/delete_review.php",
       {
         data: {
-          rawg_id: rawgId.value,
+          rawg_id: gameId,
         },
         withCredentials: true,
       }
@@ -319,20 +321,19 @@ onMounted(async () => {
     <p v-if="reviews.length === 0" class="mt-4 text-center">
       No Review for this game
       <span class="text-warning">Be the first to review this game</span>
+      <hr class="mt-4">
     </p>
     <div v-else>
       <div v-for="(review, index) in reviews" :key="index" class="mb-4">
         <div>
-          <p>
-            Review from : <strong>{{ review.username }}</strong> <br />
-            Rated at :
-            {{ review.rating }} out of 5
-          </p>
-          <p class="ml-4">{{ review.comment }}</p>
+          <h5>Review from : <strong>{{ review.username }}</strong></h5>
+          <p>Rated at : {{ review.rating }} out of 5</p>
+          <p class="ml-4"><em>{{ review.comment }}</em></p>
         </div>
-        <div v-if="username" class="d-flex gap-3">
+        <div v-if="review.username == username" class="d-flex gap-3">
           <v-btn
             color="warning"
+            density="comfortable"
             @click="
               edittingReview == false
                 ? (edittingReview = true)
@@ -340,11 +341,15 @@ onMounted(async () => {
             "
             >Edit</v-btn
           >
-          <v-btn color="danger" class="text-light" @click="handleDeleteReview"
+          <v-btn color="danger" density="comfortable" class="text-light" @click="handleDeleteReview"
             >DELETE</v-btn
           >
         </div>
-        <div v-if="edittingReview == true" class="mt-2">
+        
+        
+        <hr />
+      </div>
+      <v-form v-if="edittingReview == true" class="mt-2">
           <v-slider
             v-model="userinput.rating"
             :max="5"
@@ -362,8 +367,8 @@ onMounted(async () => {
             v-model="userinput.comment"
           ></v-textarea>
           <v-btn block class="bg-brown" @click="handleEditReview">Submit</v-btn>
-        </div>
-        <div class="mt-3">
+        </v-form>
+        <div class="mt-3 text-center">
           <p v-if="(editReviewMessage.success = true)" class="text-success">
             {{ editReviewMessage.message }}
           </p>
@@ -371,17 +376,16 @@ onMounted(async () => {
             {{ editReviewMessage.message }}
           </p>
         </div>
-        <hr />
-      </div>
     </div>
   </section>
 
   <!-- Write Review for Logged in user-->
   <section v-if="userLoggedIn" class="container section-responsive w-100 my-5">
     <div class="text-center">
-      <h1 class="mb-4">Write a review for</h1>
+      <h1 class="mb-4">Write a review for <span class="text-brown">{{ game.name }}</span></h1>
       <!-- Form -->
-      <v-slider
+      <v-form>
+        <v-slider
         v-model="userinput.rating"
         :max="5"
         :min="1"
@@ -398,6 +402,7 @@ onMounted(async () => {
         v-model="userinput.comment"
       ></v-textarea>
       <v-btn block class="bg-brown" @click="handleAddReview">Submit</v-btn>
+      </v-form>
       <div class="mt-3">
         <p v-if="(addReviewMessage.success = true)" class="text-success">
           {{ addReviewMessage.message }}

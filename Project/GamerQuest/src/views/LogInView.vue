@@ -1,13 +1,10 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 
 const username = ref("");
 const password = ref("");
 const message = ref("");
 const success = ref(null);
-
-const router = useRouter();
 
 async function handleLogIn() {
   const formData = new FormData();
@@ -15,19 +12,21 @@ async function handleLogIn() {
   formData.append("password", password.value);
 
   try {
-    const res = await fetch(import.meta.env.VITE_API_URL + "/api/login.php", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/api/login.php",
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      }
+    );
 
-    const data = await res.json();
+    const data = await response.json();
     success.value = data.success;
     message.value = data.message;
 
     if (data.success) {
-      // Optional: Redirect to home or protected page
-      router.push("/");
+      window.location.reload(); // refresh the page after logged in
     }
   } catch (error) {
     success.value = false;
