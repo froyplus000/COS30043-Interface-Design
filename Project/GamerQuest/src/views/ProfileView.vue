@@ -1,3 +1,10 @@
+<script setup>
+import Draggable from "../components/Draggable.vue";
+</script>
+
 <template>
-  <h1>Welcome to My Profile</h1>
+  <section class="container w-100">
+    <h1>Welcome to my page</h1>
+    <Draggable />
+  </section>
 </template>

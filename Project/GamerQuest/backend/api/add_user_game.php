@@ -11,9 +11,10 @@ if (!isset($_SESSION["username"])) {
 $username = $_SESSION["username"];
 $data = json_decode(file_get_contents("php://input"), true);
 $rawg_id = isset($data['rawg_id']) ? trim($data['rawg_id']) : '';
+$gamename = isset($data['gamename']) ? trim($data['gamename']) : '';
 $status = 'wishlist';
 
-if (empty($username) || empty($rawg_id) ) {
+if (empty($username) || empty($rawg_id) || empty($gamename) ) {
     echo json_encode(['success' => false, 'message' => 'All fields are required.']);
     exit;
 }
@@ -35,7 +36,7 @@ $check_stmt->close();
 
 
 // add game
-$sql = "INSERT INTO gq_user_games (username, rawg_id, status) VALUES (?, ?, ?)";
+$sql = "INSERT INTO gq_user_games (username, rawg_id, gamename, status) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 
 if ($stmt === false) {
@@ -43,7 +44,7 @@ if ($stmt === false) {
     exit;
 }
 
-$stmt->bind_param("sis", $username, $rawg_id, $status);
+$stmt->bind_param("siss", $username, $rawg_id, $gamename, $status);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Game add successfully!']);

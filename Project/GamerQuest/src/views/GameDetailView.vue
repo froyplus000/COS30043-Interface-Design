@@ -40,7 +40,7 @@ async function fetchGameDetail() {
       }
     );
     game.value = response.data;
-    rawgId.value = parseInt(game.value.id); // Change to int before add to gq_user_games table
+
   } catch (err) {
     console.error("Failed to fetch game detail.", err);
   }
@@ -74,6 +74,7 @@ async function handleAddGame() {
       import.meta.env.VITE_API_URL + "/api/add_user_game.php",
       {
         rawg_id: gameId,
+        gamename: game.value.name, // add game name for draggable
       },
       {
         withCredentials: true,
