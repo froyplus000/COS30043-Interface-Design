@@ -7,7 +7,7 @@ const gamerType = ref("");
 </script>
 <template>
   <h1 class="mb-5">Welcome {{ fname }} {{ lname }}</h1>
-  <div class="container w-75 text-center">
+  <div class="container form_container w-100 text-center">
     <v-text-field v-model="fname" label="First Name"></v-text-field>
     <v-text-field v-model="lname" label="Last Name"></v-text-field>
 

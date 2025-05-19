@@ -1,16 +1,16 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-
 import axios from "axios";
 
-const userinput = ref({ title: "", category: "" });
-const games = ref([]);
-const loading = ref(true);
+const userinput = ref({ title: "", category: "" }); // User input for search and filter
+const games = ref([]); // List of game fetched from the RAWG API
+const loading = ref(true); // Loading state
 const error = ref(null);
 const API_KEY = "057d92d1a37442dabc4f22ad6175149a";
+
 // Pagination
-const currentPage = ref(1);
-const gamesPerPage = 9;
+const currentPage = ref(1); // Current page, start at the first page
+const gamesPerPage = 6; // Amount of games will display per page
 
 const fetchGames = async () => {
   loading.value = true;
@@ -18,7 +18,7 @@ const fetchGames = async () => {
     const response = await axios.get("https://api.rawg.io/api/games", {
       params: {
         key: API_KEY,
-        page_size: 3, // You can increase or paginate later
+        page_size: 20, // Amount of games to fetch
       },
     });
     games.value = response.data.results;
@@ -82,7 +82,7 @@ onMounted(() => {
       </div>
     </div>
   </header>
-  <!-- Display all News -->
+  <!-- Display all game -->
   <section class="container w-100 mb-3">
     <v-pagination
       v-model="currentPage"
@@ -133,16 +133,16 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      rounded
+      class="mb-2"
+    ></v-pagination>
   </section>
 </template>
 
 <style scoped>
-@media (min-width: 992px) {
-  /* Bootstrap's lg breakpoint */
-  .header-responsive {
-    width: 75% !important;
-  }
-}
 .game-image {
   height: 200px; /* adjust to your preferred height */
   object-fit: cover;

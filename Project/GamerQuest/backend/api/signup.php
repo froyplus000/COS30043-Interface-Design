@@ -4,13 +4,12 @@ include '../db.php';
 require_once '../lib/password.php';
 
 
-// $username = trim($_POST['username'] ?? '');
-// $password = trim($_POST['password'] ?? '');
-$firstname = isset($_POST['firstname']) ? trim($_POST['firstname']) : '';
-$lastname = isset($_POST['lastname']) ? trim($_POST['lastname']) : '';
-$username = isset($_POST['username']) ? trim($_POST['username']) : '';
-$password = isset($_POST['password']) ? trim($_POST['password']) : '';
-$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$data = json_decode(file_get_contents("php://input"), true);
+$firstname = isset($data['firstname']) ? trim($data['firstname']) : '';
+$lastname = isset($data['lastname']) ? trim($data['lastname']) : '';
+$username = isset($data['username']) ? trim($data['username']) : '';
+$password = isset($data['password']) ? trim($data['password']) : '';
+$email = isset($data['email']) ? trim($data['email']) : '';
 
 // Basic validation
 if (empty($firstname) || empty($lastname) || empty($username) || empty($password) || empty($email) ) {

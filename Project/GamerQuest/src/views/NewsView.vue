@@ -124,6 +124,12 @@ const paginatedNews = computed(() => {
         </div>
       </div>
     </div>
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      rounded
+      class="mb-2"
+    ></v-pagination>
   </section>
 </template>
 

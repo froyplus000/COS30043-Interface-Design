@@ -69,9 +69,6 @@ async function handleLogout() {
         <li>
           <router-link class="navitem" to="/explorer">Explorer</router-link>
         </li>
-        <li>
-          <router-link class="navitem" to="/popular">Trending</router-link>
-        </li>
       </ul>
       <!-- User Logged In -->
       <div

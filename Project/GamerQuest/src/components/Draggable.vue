@@ -61,7 +61,7 @@ onMounted(() => {
   <section class="container w-100 py-3">
     <div class="row g-3 flex-column flex-md-row">
       <div class="col-12 col-md-4">
-        <h1>Wishlist</h1>
+        <h2 class="mb-3">Wishlist</h2>
         <draggable
           class="list-group"
           :list="usergamelist.wishlist"
@@ -75,7 +75,7 @@ onMounted(() => {
         </draggable>
       </div>
       <div class="col-12 col-md-4">
-        <h1>Playing</h1>
+        <h2 class="mb-3">Playing</h2>
         <draggable
           class="list-group"
           :list="usergamelist.playing"
@@ -89,7 +89,7 @@ onMounted(() => {
         </draggable>
       </div>
       <div class="col-12 col-md-4">
-        <h1>Completed</h1>
+        <h2 class="mb-3">Completed</h2>
         <!-- Have to be in the same group to be draggable -->
         <draggable
           class="list-group"

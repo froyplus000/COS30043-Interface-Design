@@ -1,8 +1,8 @@
 <script setup>
+import axios from "axios";
 import { ref } from "vue";
 
-const message = ref("");
-const success = ref(null);
+const signUpMessage = ref({ status: "", message: "" });
 
 const userinput = ref({
   fName: "",
@@ -14,34 +14,37 @@ const userinput = ref({
 });
 
 async function handleSubmit() {
-  // PHP will need to handle data send in FormData.
-  const formData = new FormData();
-  formData.append("firstname", userinput.value.fName);
-  formData.append("lastname", userinput.value.lName);
-  formData.append("username", userinput.value.userName);
-  formData.append("password", userinput.value.pw);
-  formData.append("email", userinput.value.email);
-
   try {
-    const res = await fetch(import.meta.env.VITE_API_URL + "/api/signup.php", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    success.value = data.success;
-    message.value = data.message;
+    const response = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/signup.php",
+      {
+        firstname: userinput.value.fName,
+        lastname: userinput.value.lName,
+        username: userinput.value.userName,
+        password: userinput.value.pw,
+        email: userinput.value.email,
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
-    if (data.success) {
+    if (response) {
+      // Reset form
       userinput.fName = "";
       userinput.lName = "";
       userinput.userName = "";
       userinput.pw = "";
       userinput.cpw = "";
       userinput.email = "";
+      console.log(response.data);
+      signUpMessage.value.status = response.data.success;
+      signUpMessage.value.message = response.data.message;
     }
   } catch (err) {
-    success.value = false;
-    message.value = err;
+    signUpMessage.value.status = false;
+    signUpMessage.value.message = "An error occurred while signing up";
+    console.error(err);
   }
 }
 
@@ -149,10 +152,10 @@ const emailRules = [
 
       <p
         class="text-center mt-3"
-        :class="success ? 'text-success' : 'text-danger'"
-        v-if="message"
+        :class="signUpMessage.status === true ? 'text-success' : 'text-danger'"
+        v-if="signUpMessage.message"
       >
-        {{ message }}
+        {{ signUpMessage.message }}
       </p>
     </div>
   </section>

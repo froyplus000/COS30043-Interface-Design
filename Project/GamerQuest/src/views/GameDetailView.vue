@@ -14,10 +14,9 @@ const game = ref(null); // Store Information of the game
 const reviews = ref([]); // List of all reviews for this game
 
 // Messages
-const addGameMessage = ref({ status: "", message: "" });
-const addReviewMessage = ref({ status: "", message: "" });
-const editReviewMessage = ref({ status: "", message: "" });
-const deleteReviewMessage = ref({ status: "", message: "" });
+const addGameMessage = ref({ status: "", message: "" }); // Add game message
+const addReviewMessage = ref({ status: "", message: "" }); // Add review message
+const editReviewMessage = ref({ status: "", message: "" }); // Edit and Review message
 
 const userinput = ref({ rating: 3.0, comment: "" }); // userinput for reviews
 // label for slider rating in the review
@@ -57,8 +56,6 @@ async function fetchGameReviews() {
         withCredentials: true,
       }
     );
-    // console.log("Full response:", response.data);
-
     reviews.value = response.data.reviews;
   } catch (err) {
     console.error("Error fetching reviews:", err);
@@ -68,7 +65,6 @@ async function fetchGameReviews() {
 async function handleAddGame() {
   addGameMessage.value.status = "";
   addGameMessage.value.message = "";
-
   try {
     const response = await axios.post(
       import.meta.env.VITE_API_URL + "/api/add_user_game.php",
@@ -81,15 +77,10 @@ async function handleAddGame() {
       }
     );
 
-    if (response.data.success) {
-      addGameMessage.value.status = "success";
-      addGameMessage.value.message = response.data.message;
-    } else {
-      addGameMessage.value.status = "fail";
-      addGameMessage.value.message = response.data.message;
-    }
+    addGameMessage.value.status = response.data.success;
+    addGameMessage.value.message = response.data.message;
   } catch (err) {
-    addGameMessage.value.status = "fail";
+    addGameMessage.value.status = false;
     addGameMessage.value.message = "An error occurred while adding the game.";
     console.error(err);
   }
@@ -107,19 +98,11 @@ async function handleAddReview() {
         withCredentials: true,
       }
     );
-
-    if (response.data.success) {
-      addReviewMessage.value.status = "success";
+      addReviewMessage.value.status = response.data.success;
       addReviewMessage.value.message = response.data.message;
       await fetchGameReviews();
-    } else {
-      addReviewMessage.value.status = "fail";
-      addReviewMessage.value.message = response.data.message;
-      await fetchGameReviews();
-
-    }
   } catch (err) {
-    addReviewMessage.value.status = "fail";
+    addReviewMessage.value.status = false;
     addReviewMessage.value.message = "An error occurred while adding review.";
     console.error(err);
   }
@@ -138,17 +121,15 @@ async function handleEditReview() {
         withCredentials: true,
       }
     );
-    if (response.data.success) {
-      editReviewMessage.value.status = "success";
+
+    editReviewMessage.value.status = response.data.success;
       editReviewMessage.value.message = response.data.message;
       await fetchGameReviews(); // Refresh reviews after edit
+    if (response.data.success) {
       edittingReview.value = false;
-    } else {
-      editReviewMessage.value.status = "fail";
-      editReviewMessage.value.message = response.data.message;
     }
   } catch (err) {
-    editReviewMessage.value.status = "fail";
+    editReviewMessage.value.status = false;
     editReviewMessage.value.message =
       "An error occurred while editing the game.";
     console.error(err);
@@ -166,17 +147,14 @@ async function handleDeleteReview() {
         withCredentials: true,
       }
     );
-    if (response.data.success) {
-      deleteReviewMessage.value.status = "success";
-      deleteReviewMessage.value.message = response.data.message;
-      await fetchGameReviews(); // Refresh reviews after delete
-    } else {
-      deleteReviewMessage.value.status = "fail";
-      deleteReviewMessage.value.message = response.data.message;
-    }
+
+    editReviewMessage.value.status = response.data.success;
+    editReviewMessage.value.message = response.data.message;
+    await fetchGameReviews(); // Refresh reviews after delete
+
   } catch (err) {
-    deleteReviewMessage.value.status = "fail";
-    deleteReviewMessage.value.message = "Failed to delete review.";
+    editReviewMessage.value.status = false;
+    editReviewMessage.value.message = "Failed to delete review.";
     console.error(err);
   }
 }
@@ -295,15 +273,9 @@ onMounted(async () => {
       </div>
 
       <p
-        class="text-center text-success"
-        v-if="addGameMessage.status === 'success'"
-      >
-        {{ addGameMessage.message }}
-      </p>
-
-      <p
-        class="text-center text-danger"
-        v-if="addGameMessage.status === 'fail'"
+        class="text-center mt-3"
+        :class="addGameMessage.status === true ? 'text-success' : 'text-danger'"
+        v-if="addGameMessage.message"
       >
         {{ addGameMessage.message }}
       </p>
@@ -369,14 +341,17 @@ onMounted(async () => {
           ></v-textarea>
           <v-btn block class="bg-brown" @click="handleEditReview">Submit</v-btn>
         </v-form>
-        <div class="mt-3 text-center">
-          <p v-if="(editReviewMessage.success = true)" class="text-success">
-            {{ editReviewMessage.message }}
-          </p>
-          <p v-if="(editReviewMessage.success = false)" class="text-danger">
-            {{ editReviewMessage.message }}
-          </p>
-        </div>
+      <!-- Edit and Delete Review Message -->
+      <div class="mt-3 text-center">
+        <p
+          class="text-center mt-3"
+          :class="editReviewMessage.status === true ? 'text-success' : 'text-danger'"
+          v-if="editReviewMessage.message"
+        >
+        {{ editReviewMessage.message }}
+      </p>
+
+      </div>
     </div>
   </section>
 
@@ -405,22 +380,17 @@ onMounted(async () => {
       <v-btn block class="bg-brown" @click="handleAddReview">Submit</v-btn>
       </v-form>
       <div class="mt-3">
-        <p v-if="(addReviewMessage.success = true)" class="text-success">
-          {{ addReviewMessage.message }}
-        </p>
-        <p v-if="(addReviewMessage.success = false)" class="text-danger">
-          {{ addReviewMessage.message }}
-        </p>
+
+      <p
+        class="text-center mt-3"
+        :class="addReviewMessage.status === true ? 'text-success' : 'text-danger'"
+        v-if="addReviewMessage.message"
+      >
+        {{ addReviewMessage.message }}
+      </p>
+
+        
       </div>
     </div>
   </section>
 </template>
-
-<style scoped>
-@media (min-width: 992px) {
-  /* Bootstrap's lg breakpoint */
-  .section-responsive {
-    width: 80dvw !important;
-  }
-}
-</style>

@@ -5,9 +5,9 @@ require_once '../lib/password.php';
 
 
 
-
-$username = isset($_POST['username']) ? trim($_POST['username']) : '';
-$password = isset($_POST['password']) ? trim($_POST['password']) : '';
+$data = json_decode(file_get_contents("php://input"), true);
+$username = isset($data['username']) ? trim($data['username']) : '';
+$password = isset($data['password']) ? trim($data['password']) : '';
 
 
 // Validate input

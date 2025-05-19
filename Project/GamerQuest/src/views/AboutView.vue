@@ -28,12 +28,3 @@ import AboutUserSelection from "../components/AboutUserSelection.vue";
     <AboutUserSelection />
   </section>
 </template>
-
-<style scoped>
-@media (min-width: 992px) {
-  /* Bootstrap's lg breakpoint */
-  .header-responsive {
-    width: 75% !important;
-  }
-}
-</style>

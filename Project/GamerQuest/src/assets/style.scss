@@ -17,4 +17,18 @@ $theme-colors: (
 // Step 2: Import Bootstrap (after variables)
 @import "bootstrap/scss/bootstrap";
 
-// CUSTOM STYLING
+// Custom Styling
+@media (min-width: 992px) {
+  /* Bootstrap's lg breakpoint */
+  .header-responsive {
+    width: 80dvw !important;
+  }
+  // Form for About User selection section
+  .form_container {
+    width: 80% !important;
+  }
+  // for each section in GameDetailView
+  .section-responsive {
+    width: 80dvw !important;
+  }
+}
