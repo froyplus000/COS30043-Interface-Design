@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../lib/password.php';
+require_once './lib/password.php';
 
 
 // $db_server = 'feenix-mariadb.swin.edu.au';

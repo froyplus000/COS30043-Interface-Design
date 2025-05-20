@@ -1,7 +1,8 @@
 <?php
 session_start();
 include '../header.php';
-include '../db.php';
+include __DIR__ . '/../db.php';
+
 
 // Check login
 if (!isset($_SESSION['username'])) {

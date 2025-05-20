@@ -165,7 +165,7 @@ onMounted(async () => {
       withCredentials: true,
     });
     userLoggedIn.value = res.data.loggedIn === true;
-    username.value = res.data.user;
+    username.value = res.data.user.username;
   } catch (err) {
     console.error("Failed to check session:", err);
     userLoggedIn.value = false;
