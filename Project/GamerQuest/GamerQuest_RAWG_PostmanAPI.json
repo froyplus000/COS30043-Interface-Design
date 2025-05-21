@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "7a29efa0-fb74-4d08-9183-ab0382271a5d",
+		"name": "GamerQuest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38823946"
+	},
+	"item": [
+		{
+			"name": "RAWG - Get all games",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.rawg.io/api/games?key=057d92d1a37442dabc4f22ad6175149a",
+					"protocol": "https",
+					"host": [
+						"api",
+						"rawg",
+						"io"
+					],
+					"path": [
+						"api",
+						"games"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "057d92d1a37442dabc4f22ad6175149a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RAWG - Get single game",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.rawg.io/api/games/3498?key=057d92d1a37442dabc4f22ad6175149a",
+					"protocol": "https",
+					"host": [
+						"api",
+						"rawg",
+						"io"
+					],
+					"path": [
+						"api",
+						"games",
+						"3498"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "057d92d1a37442dabc4f22ad6175149a"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

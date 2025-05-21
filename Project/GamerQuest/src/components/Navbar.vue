@@ -17,8 +17,8 @@ onMounted(async () => {
 });
 
 async function handleLogout() {
-  await fetch(import.meta.env.VITE_API_URL + "/api/logout.php", {
-    credentials: "include",
+  await axios(import.meta.env.VITE_API_URL + "/api/logout.php", {
+    withCredentials: true,
   });
   userLoggedIn.value = false;
   window.location.reload(); // refresh the page after logged in
@@ -79,8 +79,8 @@ async function handleLogout() {
           >Logout</v-btn
         >
         <v-btn density="comfortable" class="navbtn">
-          <router-link class="text-decoration-none text-dark" to="/profile"
-            >My Profile</router-link
+          <router-link class="text-decoration-none text-dark" to="/myGame"
+            >My Games</router-link
           >
         </v-btn>
         <!-- <h5 class="text-light mb-0">Welcome</h5> -->

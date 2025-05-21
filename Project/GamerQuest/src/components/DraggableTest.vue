@@ -3,13 +3,23 @@ import { ref } from "vue";
 import draggable from "vuedraggable";
 
 const usergamelist = ref({
-  wishlist: [{ rawg_id: 1 }, { rawg_id: 2 }, { rawg_id: 3 }, { rawg_id: 4 }],
-  playing: [{ rawg_id: 5 }, { rawg_id: 6 }, { rawg_id: 7 }, { rawg_id: 8 }],
+  wishlist: [
+    { gameName: "Elden Ring" },
+    { gameName: "Dark Soul 3" },
+    { gameName: "GTA V" },
+    { gameName: "Valorant" },
+  ],
+  playing: [
+    { gameName: "Fire Emblem" },
+    { gameName: "Pokemon" },
+    { gameName: "The Last of Us" },
+    { gameName: "The Legend of Zelda" },
+  ],
   completed: [
-    { rawg_id: 11 },
-    { rawg_id: 23 },
-    { rawg_id: 21 },
-    { rawg_id: 98 },
+    { gameName: "Portal 2" },
+    { gameName: "Dota 2" },
+    { gameName: "Overwatch 2" },
+    { gameName: "Fortnite" },
   ],
 });
 </script>
@@ -26,7 +36,7 @@ const usergamelist = ref({
           item-key="name"
         >
           <template class="list-group-item" #item="{ element }">
-            <div class="list-group-item">{{ element.rawg_id }}</div>
+            <div class="list-group-item">{{ element.gameName }}</div>
           </template>
         </draggable>
       </div>
@@ -39,7 +49,7 @@ const usergamelist = ref({
           item-key="name"
         >
           <template #item="{ element }">
-            <div class="list-group-item">{{ element.rawg_id }}</div>
+            <div class="list-group-item">{{ element.gameName }}</div>
           </template>
         </draggable>
       </div>
@@ -53,7 +63,7 @@ const usergamelist = ref({
           item-key="name"
         >
           <template class="list-group-item" #item="{ element }">
-            <div class="list-group-item">{{ element.rawg_id }}</div>
+            <div class="list-group-item">{{ element.gameName }}</div>
           </template>
         </draggable>
       </div>
@@ -67,7 +77,6 @@ const usergamelist = ref({
   transition: background 0.2s ease;
 }
 .list-group-item:hover {
-  background-color: var(--bs-brown);
-  color: var(--bs-light);
+  background-color: rgb(248, 248, 248);
 }
 </style>

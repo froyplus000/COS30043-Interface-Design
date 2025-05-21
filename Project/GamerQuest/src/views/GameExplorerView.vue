@@ -51,7 +51,7 @@ const filterGames = computed(() => {
     return matchTitle && matchCategory;
   });
 });
-
+// Fetch games on mounted
 onMounted(() => {
   fetchGames();
 });

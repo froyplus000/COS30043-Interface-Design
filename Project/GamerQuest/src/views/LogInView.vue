@@ -28,34 +28,6 @@ async function handleLogIn() {
     console.error(err);
   }
 }
-
-async function handleLogInOUD() {
-  const formData = new FormData();
-  formData.append("username", username.value);
-  formData.append("password", password.value);
-
-  try {
-    const response = await fetch(
-      import.meta.env.VITE_API_URL + "/api/login.php",
-      {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      }
-    );
-
-    const data = await response.json();
-    success.value = data.success;
-    message.value = data.message;
-
-    if (data.success) {
-      window.location.reload(); // refresh the page after logged in
-    }
-  } catch (error) {
-    success.value = false;
-    message.value = "Something went wrong.";
-  }
-}
 </script>
 
 <template>

@@ -7,7 +7,7 @@ import SignUpView from "../views/SignUpView.vue";
 import LogInView from "../views/LogInView.vue";
 import GameExplorerView from "../views/GameExplorerView.vue";
 import GameDetailView from "../views/GameDetailView.vue";
-import ProfileView from "../views/ProfileView.vue";
+import MyGameView from "../views/MyGameView.vue";
 // Components
 
 const routes = [
@@ -22,7 +22,7 @@ const routes = [
   // Game Explorer and Game Detail
   { path: "/explorer", component: GameExplorerView },
   { path: "/explorer/:gameId", component: GameDetailView },
-  { path: "/profile", component: ProfileView },
+  { path: "/myGame", component: MyGameView },
 ];
 
 const router = createRouter({

@@ -53,7 +53,7 @@ const paginatedNews = computed(() => {
 
 <template>
   <header class="container header-responsive w-100 text-center py-5">
-    <h1 class="mb-5">Gamer News</h1>
+    <h1 class="mb-5">Latest News</h1>
     <!-- Uncomment to see the Vuetify date Output -->
     <!-- <h1>{{ userinput.date }}</h1> -->
     <!-- Search Inputs -->
