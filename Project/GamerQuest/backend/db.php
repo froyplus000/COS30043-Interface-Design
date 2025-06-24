@@ -5,11 +5,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once '../lib/password.php';
 
-
-// $db_server = 'feenix-mariadb.swin.edu.au';
-// $db_user = 's103883220';
-// $db_pw = 'FolkPt240641@';
-// $db_name = 's103883220_db';
 $db_server = 'localhost';
 $db_user = 'root';
 $db_pw = 'root';
