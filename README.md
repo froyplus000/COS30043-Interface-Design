@@ -9,7 +9,7 @@ GamerQuest is main project for COS30043-Interface-Design Unit, while 2 assignmen
 
 - **Frontend**: Vue.js, Vue Router, Bootstrap, Vite, Vuetify, Vue-Draggable
 - **Backend**: PHP 
-- **Database**: MySQL : PhpMyadmin & MariaDB
+- **MySQL Database**: PhpMyadmin & MariaDB
 - **Deployment**: Mercury Server (University Hosting)
 
  
