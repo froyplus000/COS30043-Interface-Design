@@ -1,3 +1,4 @@
+![GamerQuest Demo](https://github.com/froyplus000/GamerQuest/blob/main/Project/GamerQuest.gif?raw=true)
 # GamerQuest
 GamerQuest is a social web application where users can discover new games, write reviews, and manage their personal game library. It combines the features of a community review platform with a dynamic game tracking system, designed using Vue.js (frontend), PHP (backend), and MySQL (database). The app will be deployed on the university’s Mercury server with connection to MariaDB database. Further project detail can be found in GamerQuest Report inside the project folder.
 
